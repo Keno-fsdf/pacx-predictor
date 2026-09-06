@@ -4,6 +4,8 @@ Inline suggestions for [PACX](https://github.com/neronotte/Greg.Xrm.Command) com
 
 Community tool, not part of PACX.
 
+![pacx predictor demo](docs/demo.gif)
+
 ## What it does
 
 PACX ships tab completion (`pacx completion powershell`). Tab completion only tells you what is possible after you press TAB. This module adds a PSReadLine predictor that shows the next verb, the required options of the current command or the allowed values of an option *while you type*, including commands you have never used before.
