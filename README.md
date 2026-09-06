@@ -15,18 +15,20 @@ The command tree comes from the installed pacx at runtime (`pacx completion expo
 ## Requirements
 
 - PowerShell 7.4 or newer (the predictor subsystem does not exist in Windows PowerShell 5.1)
-- PSReadLine 2.2.2 or newer (bundled with PowerShell 7.4)
-- PACX 1.2026.9.249 or newer (first version with `pacx completion export`)
+- PSReadLine 2.2.2 or newer (PowerShell 7.4 ships 2.3.4)
+- PACX 1.2026.9.248 or newer (first version with `pacx completion export`)
 
 ## Install
 
-Until the module is on the PowerShell Gallery, build it from source:
+Until the module is on the PowerShell Gallery, build it from source (needs the .NET 8 SDK or newer):
 
 ```powershell
 git clone https://github.com/Keno-fsdf/pacx-predictor.git
 cd pacx-predictor
-dotnet publish src/Pacx.Predictor -c Release -o "$HOME\Documents\PowerShell\Modules\Pacx.Predictor"
+dotnet publish src/Pacx.Predictor -c Release -o "$(Split-Path $PROFILE)\Modules\Pacx.Predictor"
 ```
+
+Run that in pwsh, so `$PROFILE` points to the PowerShell 7 profile folder and the module lands on its module path.
 
 Then, in your pwsh `$PROFILE`:
 
@@ -49,7 +51,7 @@ pacx output is cached in `%LOCALAPPDATA%\Pacx.Predictor` (`tree.json`, `complete
 - `TreeCache` keeps the pacx output on disk; `TreeLoader` uses it when valid and otherwise runs pacx once, keeping the tree in memory so a keystroke never waits for a process.
 - `SuggestionEngine` is pure logic (no PowerShell dependency) and mirrors the rules of the pacx tab completer: next verbs, unused options with required ones first, enum values after an option, aliases resolved.
 - `PacxPredictor` implements `ICommandPredictor` and is registered when the module is imported.
-- On import the module also seeds `$global:PacxCompletionCache`, the cache used by the tab completer from `pacx completion powershell`. pacx locks its history file while running, so two concurrent pacx runs (the predictor's and the completer's first-TAB load) would make one of them fail; seeding the cache means pacx runs exactly once for both.
+- On import the module also seeds `$global:PacxCompletionCache`, the cache used by the tab completer from `pacx completion powershell`. pacx locks its history file while running, so two concurrent pacx runs (the predictor's and the completer's first-TAB load) would make one of them fail; seeding the cache means pacx runs at most once for both.
 
 ## Development
 
