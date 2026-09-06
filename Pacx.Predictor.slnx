@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Pacx.Predictor/Pacx.Predictor.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Pacx.Predictor.Tests/Pacx.Predictor.Tests.csproj" />
+  </Folder>
+</Solution>

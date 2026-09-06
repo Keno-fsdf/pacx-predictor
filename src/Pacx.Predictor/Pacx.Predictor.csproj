@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>Pacx.Predictor</RootNamespace>
+    <AssemblyName>Pacx.Predictor</AssemblyName>
+    <Version>0.1.0</Version>
+    <Authors>Keno Schürger</Authors>
+    <Description>Inline command predictions for PACX (Greg.Xrm.Command) in PowerShell 7.4+.</Description>
+    <!-- The module folder must not contain PowerShell's own assemblies. -->
+    <CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
+    <GenerateDependencyFile>false</GenerateDependencyFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Compile against the PowerShell 7.4 engine; never ship it. -->
+    <PackageReference Include="System.Management.Automation" Version="7.4.19" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Pacx.Predictor.psd1" CopyToOutputDirectory="PreserveNewest" />
+    <InternalsVisibleTo Include="Pacx.Predictor.Tests" />
+  </ItemGroup>
+
+</Project>
