@@ -42,6 +42,10 @@ public sealed class ModuleInit : IModuleAssemblyInitializer, IModuleAssemblyClea
     public void OnImport()
     {
         SubsystemManager.RegisterSubsystem<ICommandPredictor, PacxPredictor>(new PacxPredictor());
+        // pac suggestions and TAB completion come from a cache that Update-PacPredictor fills;
+        // nothing to start here, the completer looks for the tree when TAB is pressed.
+        SubsystemManager.RegisterSubsystem<ICommandPredictor, PacPredictor>(new PacPredictor());
+        RegisterCompleter(PacCompleterScript);
 
         // Load the tree now rather than in the background. pacx locks its history file while
         // running, so a background export racing the tab completer's own first-TAB export
@@ -63,7 +67,14 @@ public sealed class ModuleInit : IModuleAssemblyInitializer, IModuleAssemblyClea
         }
     }
 
-    /// <summary>Runs the script from "pacx completion powershell", which registers the TAB completer.</summary>
+    private const string PacCompleterScript = """
+        Register-ArgumentCompleter -Native -CommandName pac, pac.exe, pac.cmd -ScriptBlock {
+            param($wordToComplete, $commandAst, $cursorPosition)
+            [Pacx.Predictor.PacCompleter]::Complete($commandAst, $cursorPosition)
+        }
+        """;
+
+    /// <summary>Runs a script that registers a TAB completer (pacx's own, or the pac one above).</summary>
     private static void RegisterCompleter(string script)
     {
         try
@@ -80,6 +91,7 @@ public sealed class ModuleInit : IModuleAssemblyInitializer, IModuleAssemblyClea
     public void OnRemove(PSModuleInfo psModuleInfo)
     {
         SubsystemManager.UnregisterSubsystem<ICommandPredictor>(PacxPredictor.PredictorId);
+        SubsystemManager.UnregisterSubsystem<ICommandPredictor>(PacPredictor.PredictorId);
     }
 
     /// <summary>

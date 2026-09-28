@@ -1,0 +1,19 @@
+Microsoft PowerPlatform CLI
+Version: 2.12.2+ga6b1ffa (.NET Framework 4.8.9310.0)
+Online documentation: https://aka.ms/PowerPlatformCLI
+Feedback, Suggestions, Issues: https://github.com/microsoft/powerplatform-build-tools/discussions
+
+Help:
+Commands for working with Dataverse solution projects.
+
+Commands:
+Usage: pac solution [init] [add-reference] [list] [delete] [online-version] [version] [import] [export] [clone] [publish] [upgrade] [add-license] [check] [create-settings] [pack] [unpack] [add-solution-component] [sync]
+
+  init                       Initializes a directory with a new Dataverse solution project
+  add-reference              Adds a reference from the project in the current directory to the project at 'path'
+  list                       List all Solutions from the current Dataverse organization
+  delete                     Delete a solution from Dataverse in the current environment.
+  online-version             Gets or sets version for solution loaded in Dataverse.
+  version                    Update build or revision version for the solution.
+  import                     Import the Dataverse solution project into the current Dataverse organization
+  export                     Export a Dataverse solution project from the current Dataverse organization

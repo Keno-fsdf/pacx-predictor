@@ -1,0 +1,16 @@
+Microsoft PowerPlatform CLI
+Version: 2.12.2+ga6b1ffa (.NET Framework 4.8.9310.0)
+Online documentation: https://aka.ms/PowerPlatformCLI
+Feedback, Suggestions, Issues: https://github.com/microsoft/powerplatform-build-tools/discussions
+
+Help:
+List all environments from your tenant.
+
+Commands:
+Usage: pac admin list [--environment] [--type] [--name] [--application]
+
+  --environment               List all environments that contain given string in their name or ID. (alias: -env)
+  --type                      List all environments with the given type. (alias: -t)
+                              Values: Trial, Sandbox, Production, Developer, Teams, SubscriptionBasedTrial
+  --name                      List all environments that contain given string in their name. (alias: -n)
+  --application               List all environments that have specified application installed. To specify application, use unique name or ID. (alias: -a)

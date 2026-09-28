@@ -1,0 +1,14 @@
+Microsoft PowerPlatform CLI
+Version: 2.12.2+ga6b1ffa (.NET Framework 4.8.9310.0)
+Online documentation: https://aka.ms/PowerPlatformCLI
+Feedback, Suggestions, Issues: https://github.com/microsoft/powerplatform-build-tools/discussions
+
+Help:
+Update environment settings
+
+Commands:
+Usage: pac org update-settings [--environment] --name [--value]
+
+  --environment               Specifies the target Dataverse. The value may be a Guid or absolute https URL. When not specified, the active organization selected for the current auth profile will be used. (alias: -env)
+  --name                      Name of the setting to update (alias: -n)
+  --value                     Value to which setting should be updated to (alias: -v)

@@ -7,9 +7,9 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>Pacx.Predictor</RootNamespace>
     <AssemblyName>Pacx.Predictor</AssemblyName>
-    <Version>0.1.0</Version>
+    <Version>0.3.1</Version>
     <Authors>Keno Schürger</Authors>
-    <Description>Inline command predictions for PACX (Greg.Xrm.Command) in PowerShell 7.4+.</Description>
+    <Description>Inline command predictions for PACX (Greg.Xrm.Command) and the Power Platform CLI (pac) in PowerShell 7.4+.</Description>
     <!-- The module folder must not contain PowerShell's own assemblies. -->
     <CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
     <GenerateDependencyFile>false</GenerateDependencyFile>

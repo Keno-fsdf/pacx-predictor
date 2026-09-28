@@ -12,12 +12,15 @@ public static class SuggestionEngine
 {
     private static readonly string[] PacxNames = { "pacx", "pacx.exe" };
 
-    public static IReadOnlyList<Suggestion> Suggest(string input, CommandTree tree, int max = 5)
+    /// <param name="commandNames">Executable names the line must start with; pacx by default.</param>
+    public static IReadOnlyList<Suggestion> Suggest(
+        string input, CommandTree tree, int max = 5, IReadOnlyCollection<string>? commandNames = null)
     {
         if (string.IsNullOrEmpty(input)) return Array.Empty<Suggestion>();
 
         var tokens = Tokenize(input, out var trailingSpace);
-        if (tokens.Count == 0 || !PacxNames.Contains(tokens[0], StringComparer.OrdinalIgnoreCase))
+        var names = commandNames ?? PacxNames;
+        if (tokens.Count == 0 || !names.Contains(tokens[0], StringComparer.OrdinalIgnoreCase))
         {
             return Array.Empty<Suggestion>();
         }

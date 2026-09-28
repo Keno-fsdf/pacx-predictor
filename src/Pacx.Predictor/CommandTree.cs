@@ -127,6 +127,7 @@ public sealed class OptionNode
     [JsonPropertyName("values")]
     public List<string>? Values { get; set; }
 
+    [JsonIgnore]
     public string LongToken => "--" + Long;
 
     public bool MatchesToken(string token) =>

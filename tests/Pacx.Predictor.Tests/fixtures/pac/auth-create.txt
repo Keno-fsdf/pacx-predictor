@@ -1,0 +1,19 @@
+Microsoft PowerPlatform CLI
+Version: 2.12.2+ga6b1ffa (.NET Framework 4.8.9310.0)
+Online documentation: https://aka.ms/PowerPlatformCLI
+Feedback, Suggestions, Issues: https://github.com/microsoft/powerplatform-build-tools/discussions
+
+Help:
+Create and store authentication profiles on this computer
+
+Commands:
+Usage: pac auth create [--name] [--username] [--password] [--cloud] [--deviceCode] [--environment] [--url]
+
+  --name                      The name you want to give to this authentication profile (maximum 30 characters). (alias: -n)
+  --username                  Optional: The username to authenticate with; shows a Microsoft Entra ID dialog if not specified. (alias: -un)
+  --password                  Optional: The password to authenticate with (alias: -p)
+  --cloud                     Optional: The cloud instance to authenticate with (alias: -ci)
+                              Values: Public, UsGov, UsGovHigh, UsGovDod, China
+  --deviceCode                Use the Microsoft Entra ID Device Code flow for interactive sign-in. (alias: -dc)
+  --environment               Default environment (ID, url, unique name, or partial name). (alias: -env)
+  --url                       (deprecated) The resource URL to connect to (alias: -u)

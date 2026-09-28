@@ -15,14 +15,17 @@ public sealed class TreeCache
     public static readonly TimeSpan MaxAge = TimeSpan.FromHours(24);
 
     private readonly string _dir;
+    private readonly TimeSpan _maxAge;
     private string TreeFile => Path.Combine(_dir, "tree.json");
     private string CompleterFile => Path.Combine(_dir, "completer.ps1");
     private string MetaFile => Path.Combine(_dir, "meta.json");
 
-    public TreeCache(string? directory = null)
+    /// <param name="maxAge">How long a cached tree stays valid; null means the default of one day.</param>
+    public TreeCache(string? directory = null, TimeSpan? maxAge = null)
     {
         _dir = directory ?? Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Pacx.Predictor");
+        _maxAge = maxAge ?? MaxAge;
     }
 
     private sealed class Meta
@@ -40,7 +43,7 @@ public sealed class TreeCache
 
             var meta = JsonSerializer.Deserialize<Meta>(File.ReadAllText(MetaFile));
             if (meta is null || meta.Key != key) return null;
-            if ((nowUtc ?? DateTime.UtcNow) - meta.SavedUtc > MaxAge) return null;
+            if ((nowUtc ?? DateTime.UtcNow) - meta.SavedUtc > _maxAge) return null;
 
             var completer = File.Exists(CompleterFile) ? File.ReadAllText(CompleterFile) : null;
             return new PacxOutput(File.ReadAllText(TreeFile), completer);
@@ -75,18 +78,22 @@ public sealed class TreeCache
     }
 
     /// <summary>
-    /// Identifies the installed pacx: location, size and timestamp of the executable found
+    /// Identifies the installed tool: location, size and timestamp of the executable found
     /// on PATH. A dotnet tool update rewrites the shim, so the key changes with the version.
     /// </summary>
-    public static string ComputeKey(string? pathVariable = null)
+    public static string ComputeKey(string? pathVariable = null, string tool = "pacx")
     {
-        var exe = FindOnPath("pacx", pathVariable ?? Environment.GetEnvironmentVariable("PATH"));
-        if (exe is null) return "pacx:not-found";
+        var exe = FindOnPath(tool, pathVariable ?? Environment.GetEnvironmentVariable("PATH"));
+        if (exe is null) return tool + ":not-found";
         var info = new FileInfo(exe);
-        return $"{info.FullName}|{info.Length}|{info.LastWriteTimeUtc.Ticks}";
+        // The path comes from PATH as the shell spells it, and Windows shells differ in case
+        // ("\Keno\" vs "\keno\"). Same file, same key.
+        var path = OperatingSystem.IsWindows() ? info.FullName.ToLowerInvariant() : info.FullName;
+        return $"{path}|{info.Length}|{info.LastWriteTimeUtc.Ticks}";
     }
 
-    private static string? FindOnPath(string name, string? pathVariable)
+    /// <summary>First match of <paramref name="name"/> on PATH, trying .exe, .cmd and .bat on Windows.</summary>
+    internal static string? FindOnPath(string name, string? pathVariable)
     {
         if (string.IsNullOrEmpty(pathVariable)) return null;
         var extensions = OperatingSystem.IsWindows() ? new[] { ".exe", ".cmd", ".bat", "" } : new[] { "" };
